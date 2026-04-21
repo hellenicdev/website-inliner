@@ -23,7 +23,7 @@
 async function process() {
     const url = document.getElementById("url").value;
 
-    const res = await fetch("https://YOUR-RENDER-BACKEND.onrender.com/inline", {
+    const res = await fetch("https://website-inliner.onrender.com/inline", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url })
