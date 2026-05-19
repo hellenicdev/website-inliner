@@ -1,7 +1,14 @@
 {
-  "name": "script-inliner",
-  "version": "1.0.0",
+  "name": "website-inliner",
+  "version": "2.0.0",
+  "description": "Fetch a webpage and inline all external scripts and stylesheets into a single HTML file",
   "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": ["inline", "scripts", "stylesheets", "css", "html", "web"],
+  "license": "MIT",
   "dependencies": {
     "axios": "^1.6.0",
     "cheerio": "^1.0.0-rc.12",
