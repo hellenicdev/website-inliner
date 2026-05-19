@@ -112,7 +112,7 @@
 <body>
   <div class="container">
     <h1>Website Inliner</h1>
-    <p class="subtitle">Fetch a page, inline all its external scripts and stylesheets into a single HTML file.</p>
+    <p class="subtitle">Fetch a page and inline its scripts, stylesheets, and images into a single self-contained HTML file.</p>
 
     <div class="card">
       <div class="card-title">Target URL</div>
@@ -134,6 +134,11 @@
           <input type="checkbox" id="inlineStyles" checked />
           <span class="toggle-slider"></span>
           Inline Stylesheets
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="inlineImages" />
+          <span class="toggle-slider"></span>
+          Inline Images
         </label>
       </div>
     </div>
@@ -186,6 +191,7 @@
             url,
             scripts: document.getElementById("inlineScripts").checked,
             styles: document.getElementById("inlineStyles").checked,
+            images: document.getElementById("inlineImages").checked,
           }),
         });
 

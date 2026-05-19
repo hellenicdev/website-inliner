@@ -1,6 +1,6 @@
 {
   "name": "website-inliner",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Fetch a webpage and inline all external scripts and stylesheets into a single HTML file",
   "main": "server.js",
   "scripts": {

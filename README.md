@@ -6,9 +6,10 @@ A web service that fetches a URL and inlines all its external **scripts** (`<scr
 
 - **Script inlining** — downloads external JS and embeds it inline
 - **Stylesheet inlining** — downloads external CSS, resolves `url()` references, and inlines `@import` rules recursively
+- **Image inlining** — converts `<img>`, `<source srcset>`, `<video poster>`, favicons, Open Graph images, and CSS `url()` references to inline data URIs
 - **Concurrent fetching** — multiple resources fetched in parallel with configurable concurrency
 - **Caching** — in-memory cache to avoid re-downloading the same resource
-- **Selective inlining** — choose to inline only scripts, only styles, or both
+- **Selective inlining** — choose to inline only scripts, styles, images, or any combination
 
 ## Usage
 
@@ -21,7 +22,8 @@ Content-Type: application/json
 {
   "url": "https://example.com",
   "scripts": true,
-  "styles": true
+  "styles": true,
+  "images": false
 }
 ```
 
@@ -54,6 +56,7 @@ Environment variables:
 | `TIMEOUT`       | `15000`  | Request timeout (ms)      |
 | `CACHE_TTL`     | `300000` | Cache lifetime (ms)       |
 | `MAX_CONCURRENCY` | `10`   | Max parallel fetches      |
+| `MAX_IMAGE_SIZE`  | `5`    | Max image size in MB      |
 
 ## License
 
