@@ -342,4 +342,8 @@ app.post("/inline", async (req, res) => {
   }
 });
 
+app.get("/api/health", (_req, res) => {
+  res.json({ status: "ok" });
+});
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
