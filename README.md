@@ -1,4 +1,5 @@
 # website-inliner
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S31XB030)
 
 A web service that fetches a URL and inlines all its external **scripts** (`<script src>`) and **stylesheets** (`<link rel="stylesheet">`, `@import`, inline `style` attributes with `url()`) into a single self-contained HTML file.
 
