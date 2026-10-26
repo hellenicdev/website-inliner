@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Website Inliner</title>
+  <meta name="description" content="Fetch a page and inline its scripts, stylesheets, and images into a single self-contained HTML file." />
+  <link rel="canonical" href="https://hellenicdev.eu/website-inliner/" />
+  <meta property="og:title" content="Website Inliner" />
+  <meta property="og:description" content="Fetch a page and inline its scripts, stylesheets, and images into a single self-contained HTML file." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hellenicdev.eu/website-inliner/" />
+  <meta property="og:site_name" content="HellenicDev" />
+  <meta property="og:image" content="https://hellenicdev.eu/logo.png" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -110,7 +118,7 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <main class="container">
     <h1>Website Inliner</h1>
     <p class="subtitle">Fetch a page and inline its scripts, stylesheets, and images into a single self-contained HTML file.</p>
 
@@ -155,7 +163,7 @@
       </div>
       <textarea id="output" placeholder="Inlined HTML will appear here..." readonly></textarea>
     </div>
-  </div>
+  </main>
 
   <div id="toast" class="toast"></div>
 
@@ -181,7 +189,7 @@
       stats.textContent = "";
       document.getElementById("copyBtn").textContent = "Copy";
 
-      showStatus("loading", `Fetching and processing <strong>${escapeHtml(url)}</strong>...`);
+      showStatus("loading", `Fetching and processing ${url}...`);
 
       try {
         const res = await fetch(API_URL, {
@@ -203,7 +211,7 @@
         }
 
         output.value = data.html;
-        showStatus("success", `Done &mdash; ${(new Blob([data.html]).size / 1024).toFixed(1)} KB of inlined HTML`);
+        showStatus("success", `Done — ${(new Blob([data.html]).size / 1024).toFixed(1)} KB of inlined HTML`);
         stats.textContent = `${data.html.length.toLocaleString()} chars · ${(new Blob([data.html]).size / 1024).toFixed(1)} KB`;
       } catch (err) {
         showStatus("error", `Request failed: ${err.message}`);
@@ -229,11 +237,14 @@
     function showStatus(type, message) {
       const el = document.getElementById("status");
       el.className = "status visible " + type;
+      el.replaceChildren();
       if (type === "loading") {
-        el.innerHTML = `<div class="spinner"></div> ${message}`;
-      } else {
-        el.innerHTML = message;
+        const spinner = document.createElement("div");
+        spinner.className = "spinner";
+        el.append(spinner, document.createTextNode(" " + message));
+        return;
       }
+      el.textContent = message;
     }
 
     function showToast(message) {
@@ -242,12 +253,6 @@
       el.classList.add("visible");
       clearTimeout(el._timer);
       el._timer = setTimeout(() => el.classList.remove("visible"), 2500);
-    }
-
-    function escapeHtml(str) {
-      const d = document.createElement("div");
-      d.textContent = str;
-      return d.innerHTML;
     }
 
     document.getElementById("url").addEventListener("keydown", (e) => {
