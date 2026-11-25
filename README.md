@@ -1,7 +1,9 @@
-# website-inliner
+# Website Inliner
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S31XB030)
 
 A web service that fetches a URL and inlines all its external **scripts** (`<script src>`) and **stylesheets** (`<link rel="stylesheet">`, `@import`, inline `style` attributes with `url()`) into a single self-contained HTML file.
+
+**Live:** https://hellenicdev.eu/website-inliner/
 
 ## Features
 
@@ -13,6 +15,12 @@ A web service that fetches a URL and inlines all its external **scripts** (`<scr
 - **Selective inlining** — choose to inline only scripts, styles, images, or any combination
 - **SSRF protection** — only `http` and `https` URLs are fetched. Every document, sub-resource, and redirect hop is checked by `request-filtering-agent`, which resolves DNS and blocks private, loopback, link-local, and other non-public addresses
 - **Rate limiting** — `POST /inline` is limited per client IP
+
+## Tech stack
+
+- **Frontend:** single static `index.html` (GitHub Pages)
+- **Backend:** Node.js 20+, Express, axios, cheerio, lru-cache, request-filtering-agent, express-rate-limit
+- **Hosting:** Render (API)
 
 ## Usage
 
@@ -71,6 +79,18 @@ Environment variables:
 
 Node.js 20 or newer is required.
 
+## Project structure
+
+```
+├── server.js    # Express API: fetch, inline and SSRF-filter resources
+├── index.html   # Web UI
+└── package.json
+```
+
 ## License
 
-MIT
+MIT. See [LICENSE](LICENSE).
+
+---
+
+Made by [HellenicDev](https://hellenicdev.eu).
