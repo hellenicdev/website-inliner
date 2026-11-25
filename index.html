@@ -125,8 +125,8 @@
     <div class="card">
       <div class="card-title">Target URL</div>
       <div class="url-row">
-        <input id="url" type="url" placeholder="https://example.com" autofocus spellcheck="false" />
-        <button class="btn" id="goBtn" onclick="process()">Inline</button>
+        <input id="url" type="url" placeholder="https://example.com" aria-label="Website URL" autocomplete="url" autofocus spellcheck="false" onkeydown="if (event.key === 'Enter') process()" />
+        <button type="button" class="btn" id="goBtn" onclick="process()">Inline</button>
       </div>
     </div>
 
@@ -151,17 +151,17 @@
       </div>
     </div>
 
-    <div id="status" class="status"></div>
+    <div id="status" class="status" role="status" aria-live="polite"></div>
 
     <div class="card" style="padding-bottom: 16px;">
       <div class="output-header">
         <span class="card-title" style="margin-bottom: 0;">Output</span>
         <div class="output-actions">
           <span class="output-stats" id="stats"></span>
-          <button class="btn btn-secondary" id="copyBtn" onclick="copyOutput()" style="padding: 6px 14px; font-size: 13px;">Copy</button>
+          <button type="button" class="btn btn-secondary" id="copyBtn" onclick="copyOutput()" style="padding: 6px 14px; font-size: 13px;">Copy</button>
         </div>
       </div>
-      <textarea id="output" placeholder="Inlined HTML will appear here..." readonly></textarea>
+      <textarea id="output" aria-label="Inlined HTML output" placeholder="Inlined HTML will appear here..." readonly></textarea>
     </div>
   </main>
 
@@ -183,6 +183,11 @@
         showToast("Please enter a URL");
         return;
       }
+      if (!/^https?:\/\//i.test(url)) {
+        showToast("URL must start with http:// or https://");
+        return;
+      }
+      if (goBtn.disabled) return;
 
       goBtn.disabled = true;
       output.value = "";
@@ -203,10 +208,19 @@
           }),
         });
 
-        const data = await res.json();
+        let data;
+        try {
+          data = await res.json();
+        } catch {
+          data = {
+            error: res.status === 429
+              ? "Too many requests. Please wait a few minutes and try again."
+              : `Server error (${res.status}). The service may be waking up. Try again in a minute.`,
+          };
+        }
 
-        if (data.error) {
-          showStatus("error", data.error);
+        if (!res.ok || data.error || typeof data.html !== "string") {
+          showStatus("error", data.error || "Unexpected response from the server.");
           return;
         }
 
